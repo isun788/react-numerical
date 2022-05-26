@@ -1,5 +1,5 @@
 import { React, useState } from 'react' ;
-import { Link } from 'react-router-dom' ;
+import { Button, Stack } from "@mui/material";
 import Gsiedel from '../components/gsiedel';
 import Conjugate from '../components/conjugate';
 import Jacobi from '../components/jacobi';
@@ -9,30 +9,25 @@ import GaussJordan from '../components/gaussjordan';
 
 const Chapter2 = () => {
 
-    const [method, setMethod] = useState("Gsiedel")
+    const [method, setMethod] = useState("Cramer")
 
     const handleClick = (methodState) => {
         setMethod(methodState)
     }
     return(
         <div>
-            <h1>Chapter2</h1>
-            <br/>
-            <ul>
-                <li>
-                    <Link to ="/">Chapter1</Link>
-                </li>
-                <li>
-                    <Link to ="/chapter2">Chapter2</Link>
-                </li>
-            </ul>
             <div>
-                <button onClick={() => handleClick('Cramer')}>Cramer's Rule</button>
-                <button onClick={() => handleClick('Gauss-Siedel')}>Gauss-Seidel</button>
-                <button onClick={() => handleClick('Jacobi')}>Jacobi</button>
-                <button onClick={() => handleClick('Conjugate')}>Conjugate</button>
-                <button onClick={() => handleClick('GaussElimination')}>Gauss Elimination</button>
-                <button onClick={() => handleClick('GaussJordan')}>Gauss Jordan</button>
+            <h1>Chapter2</h1>
+            </div>
+            <div>
+                <Stack spacing={2} direction="row">
+                <Button variant="contained" onClick={() => handleClick('Cramer')}>Cramer's Rule</Button>
+                <Button variant="contained" onClick={() => handleClick('Gauss-Siedel')}>Gauss-Seidel</Button>
+                <Button variant="contained" onClick={() => handleClick('Jacobi')}>Jacobi</Button>
+                <Button variant="contained" onClick={() => handleClick('Conjugate')}>Conjugate</Button>
+                <Button variant="contained" onClick={() => handleClick('GaussElimination')}>Gauss Elimination</Button>
+                <Button variant="contained" onClick={() => handleClick('GaussJordan')}>Gauss Jordan</Button>
+                </Stack>
                 <h1>{method}</h1>
             </div>
             <div>

@@ -1,10 +1,26 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import { showMatrix } from './function';
+import React, {Component, useState, useEffect } from 'react' ;
+import * as math from 'mathjs'
+import { Select, FormControl, MenuItem, TextField, Button } from '@mui/material';
+import { MathJax, MathJaxContext }from 'better-react-mathjax'
 
 function Gsiedel(){
     const [matrixSize, setMatrixSize] = useState({rows: 0, columns: 0})
     const [matrixA, setMatrixA] = useState([])
     const [matrixB, setMatrixB] = useState([])
     const [ans, setAnswer] = useState([])
+    const [problem, setProblem] = useState("custom") ;
+    const [value, setValue] = useState([])
+    const [toggleInput, setToggleInput] = useState(false)
+
+    useEffect(() => {
+      axios.get("http://localhost:3006/gausssiedel")
+      .then((response) => {
+          console.log(response.data)
+          setValue(response.data)
+      })
+  }, []) ;
 
     const handleChangeA = (e) => {
       let temp = []
@@ -72,6 +88,18 @@ function Gsiedel(){
       return MatB
     }
 
+    const handleProblem = (e) =>{
+      setProblem(e.target.value)
+
+      if(e.target.value === "custom"){
+          setToggleInput(false)
+      }else{
+          setMatrixA(value[e.target.value-1].A)
+          setMatrixB(value[e.target.value-1].B)
+          setToggleInput(true)
+      }
+  }
+
     function calGaussSiedel(matrixA, matrixB){
       const eps = 0.000001
       let round = 0
@@ -95,7 +123,7 @@ function Gsiedel(){
                 temp = newA[i][j]
               }
             }
-            new_x[i] = (new_x[i]/temp).toFixed(6)
+            new_x[i] = parseFloat((new_x[i]/temp).toFixed(6))
           }
           console.log(new_x)
           round++
@@ -112,7 +140,7 @@ function Gsiedel(){
             }
           }
           if(check === error.length){
-            setAnswer(old_x)
+            setAnswer(JSON.stringify(old_x))
             //console.log(old_x)
             break
           }else{
@@ -122,27 +150,69 @@ function Gsiedel(){
     }
     return(
         <div>
+          <FormControl>
+            <Select
+                id='select-equation'
+                label='equation'
+                value={problem}
+                onChange={handleProblem}>
+                  <MenuItem value="custom">Custom</MenuItem>
+                    { value ? value.map(item =>
+                    <MenuItem value={item.id}>
+                      <MathJaxContext>
+                        Matrix A:{showMatrix(item.A)} Matrix B:{showMatrix(item.B)}
+                      </MathJaxContext>
+                      </MenuItem>): null}
+            </Select>
+          </FormControl>
           <form onSubmit={handleSubmit}>
             <label>rows</label>
-            <input 
-            type="number"
-            onChange={(e) => setMatrixSize({...matrixSize, rows: e.target.value})}/>
+            <TextField
+              variant="outlined"
+              label="rows"
+              type="text"
+              onChange={(e) => setMatrixSize({...matrixSize, rows: e.target.value})}
+              disabled={toggleInput}/>
+
             <label>columns</label>
-            <input
-            type="number"
-            onChange={(e) => setMatrixSize({ ...matrixSize, columns: e.target.value })}/>
+            <TextField
+              variant="outlined"
+              label="columns"
+              type="text"
+              onChange={(e) => setMatrixSize({...matrixSize, columns: e.target.value})}
+              disabled={toggleInput}/>
             <br/>
-            <label>MatrixA</label>
+            <label>Input MatrixA</label>
             <div>
             {MatrixAInput(matrixSize)}
             </div>
-            <label>MatrixB</label>
+            <label>Input MatrixB</label>
             <div>
             {MatrixBInput(matrixSize)}
             </div>
-            <input type="submit"/>
+            <Button variant='outlined' type='submit'>Submit</Button>
             </form>
-            {ans}
+            <div>
+              <h2>Matrix A</h2>
+              <MathJaxContext>
+                {showMatrix(matrixA)}
+              </MathJaxContext>
+              <h2>Matrix B</h2>
+              <MathJaxContext>
+                {showMatrix(matrixB)}
+              </MathJaxContext>
+              <h2>Answer</h2>
+              <MathJaxContext>
+                <MathJax dynamic>
+              {"\\(" +
+                        math.parse(ans.toString().replace(/\r/g, "")).toTex({
+                            parenthesis: "keep",
+                            implicit: "show",
+                        }) +
+                        "\\)"}
+                </MathJax>
+              </MathJaxContext>
+            </div>
         </div>
     )
 }
