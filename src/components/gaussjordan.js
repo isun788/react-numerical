@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../api/axios';
 import { showMatrix } from './function';
 import React, {Component, useState, useEffect } from 'react' ;
 import * as math from 'mathjs'
@@ -15,7 +15,7 @@ function GaussJordan(){
     const [toggleInput, setToggleInput] = useState(false)
 
     useEffect(() => {
-      axios.get("http://localhost:3006/gaussjordan")
+      axios.get("/gaussjordan")
       .then((response) => {
           console.log(response.data)
           setValue(response.data)
