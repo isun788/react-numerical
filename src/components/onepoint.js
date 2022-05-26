@@ -2,8 +2,7 @@ import React, {Component, useState, useEffect } from 'react' ;
 import { equa, myError } from './function'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Select, FormControl, MenuItem, TextField, Button } from '@mui/material';
-import axios from 'axios';
-
+import axios from '../api/axios';
 
 function OnePoint(){
     const [equation, setEquation] = useState("custom") ;
@@ -17,7 +16,7 @@ function OnePoint(){
     const ErrVal = []
 
     useEffect(() => {
-        axios.get("http://localhost:3006/onepoint")
+        axios.get("onepoint")
         .then((response) => {
             console.log(response.data)
             setValue(response.data)

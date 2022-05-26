@@ -2,7 +2,7 @@ import React, {Component, useState, useEffect } from 'react' ;
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { equa, myError } from './function'
 import { Select, FormControl, MenuItem, TextField, Button } from '@mui/material';
-import axios from 'axios';
+import axios from '../api/axios';
 
 function FalsePosition(){
     const [equation, setEquation] = useState("custom") ;
@@ -17,7 +17,7 @@ function FalsePosition(){
     const ErrVal = []
 
     useEffect(() => {
-        axios.get("http://localhost:3006/falseposition")
+        axios.get("/falseposition")
         .then((response) => {
             console.log(response.data)
             setValue(response.data)

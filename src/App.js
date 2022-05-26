@@ -1,10 +1,19 @@
+import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Login from './components/Login/Login';
 import Chapter1 from "./pages/Chapter1";
 import Chapter2 from './pages/Chapter2';
 import Nav from './Nav';
+import useToken from './useToken';
+
 
 function App() {
+  const {token, setToken} = useToken()
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
+
   return (
     <div className='App'>
     <Router>

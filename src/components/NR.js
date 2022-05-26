@@ -3,7 +3,7 @@ import { equa, myError } from './function'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import * as math from 'mathjs';
 import { Select, FormControl, MenuItem, TextField, Button } from '@mui/material';
-import axios from 'axios';
+import axios from '../api/axios';
 
 function NR(){
     const [equation, setEquation] = useState("custom") ;
@@ -17,7 +17,7 @@ function NR(){
     const AnsVal = []
 
     useEffect(() => {
-        axios.get("http://localhost:3006/NewtonRaphson")
+        axios.get("/NewtonRaphson")
         .then((response) => {
             console.log(response.data)
             setValue(response.data)

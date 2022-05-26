@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../api/axios';
 import React, {Component, useState, useEffect } from 'react' ;
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { equa, myError } from './function'
@@ -17,7 +17,7 @@ function Bisection(){
     const ErrVal = []
     
     useEffect(() => {
-        axios.get("http://localhost:3006/bisection")
+        axios.get("/bisection")
         .then((response) => {
             console.log(response.data)
             setValue(response.data)
