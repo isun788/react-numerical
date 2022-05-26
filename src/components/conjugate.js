@@ -15,7 +15,7 @@ function Conjugate(){
     const [toggleInput, setToggleInput] = useState(false)
 
     useEffect(() => {
-      axios.get("http://localhost:3006/gausssiedel")
+      axios.get("http://localhost:3006/conjugate")
       .then((response) => {
           console.log(response.data)
           setValue(response.data)
