@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import React, {Component, useState, useEffect } from 'react' ;
 import * as math from 'mathjs'
+import { Select, FormControl, MenuItem, TextField, Button } from '@mui/material';
 
 function Cramer(){
     const [matrixSize, setMatrixSize] = useState({rows: 0, columns: 0})
