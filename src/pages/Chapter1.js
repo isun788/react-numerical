@@ -1,6 +1,6 @@
 import { React,  useState } from "react";
 import './dec.css' ;
-import { Link } from "react-router-dom";
+import { Button, Stack } from "@mui/material";
 import Bisection from "../components/bisection";
 import FalsePosition from "../components/falseposition";
 import OnePoint from "../components/onepoint";
@@ -16,21 +16,16 @@ const Chapter1 = () => {
 
     return(
         <div>
-            <h1>Chapter 1</h1>
-            <br/>
-            <ul>
-                <li>
-                    <Link to ="/">Chapter1</Link>
-                </li>
-                <li>
-                    <Link to ="/chapter2">Chapter2</Link>
-                </li>
-            </ul>
             <div>
-                <button onClick={() => handleClick('Bisection')}>Bisection</button>
-                <button onClick={() => handleClick('False-position')}>False-Position</button>
-                <button onClick={() => handleClick('OnePoint')}>One Point</button>
-                <button onClick={() => handleClick('Newton-Raphson')}>Newton Raphson</button>
+            <h1>Chapter 1</h1>
+            </div>
+            <div>
+                <Stack spacing={2} direction="row">
+                <Button variant="contained" onClick={() => handleClick('Bisection')}>Bisection</Button>
+                <Button variant="contained" onClick={() => handleClick('False-position')}>False-Position</Button>
+                <Button variant="contained" onClick={() => handleClick('OnePoint')}>One Point</Button>
+                <Button variant="contained" onClick={() => handleClick('Newton-Raphson')}>Newton Raphson</Button>
+                </Stack>
                 <h1>{method}</h1>
             </div>
             <div>
