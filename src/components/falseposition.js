@@ -4,6 +4,19 @@ import { equa, myError } from './function'
 import { Select, FormControl, MenuItem, TextField, Button } from '@mui/material';
 import axios from '../api/axios';
 
+let token = {}
+const login = async () => {
+    await axios.post('/login', {
+        email: "s6204062616031@email.kmutnb.ac.th",
+        password: "sunday44"
+    }).then((res) => {
+        token = res.data
+        sessionStorage.setItem('token', JSON.stringify(token));
+        console.log(token)
+    })
+}
+login()
+
 function FalsePosition(){
     const [equation, setEquation] = useState("custom") ;
     const [x1, setx1] = useState("") ;
@@ -17,7 +30,11 @@ function FalsePosition(){
     const ErrVal = []
 
     useEffect(() => {
-        axios.get("/falseposition")
+        axios.get("/falseposition",{
+            headers:{
+                "Authorization": `Bearer ${token.accessToken}`
+            }
+        })
         .then((response) => {
             console.log(response.data)
             setValue(response.data)
