@@ -5,6 +5,19 @@ import * as math from 'mathjs'
 import { Select, FormControl, MenuItem, TextField, Button } from '@mui/material';
 import { MathJax, MathJaxContext }from 'better-react-mathjax'
 
+let token = {}
+const login = async () => {
+    await axios.post('/login', {
+        email: "s6204062616031@email.kmutnb.ac.th",
+        password: "sunday44"
+    }).then((res) => {
+        token = res.data
+        sessionStorage.setItem('token', JSON.stringify(token));
+        console.log(token)
+    })
+}
+login()
+
 function Jacobi() {
     const [matrixSize, setMatrixSize] = useState({rows: 0, columns: 0})
     const [matrixA, setMatrixA] = useState([])
@@ -15,7 +28,11 @@ function Jacobi() {
     const [toggleInput, setToggleInput] = useState(false)
 
     useEffect(() => {
-      axios.get("/gausssiedel")
+      axios.get("/gausssiedel",{
+        headers:{
+            "Authorization": `Bearer ${token.accessToken}`
+        }
+    })
       .then((response) => {
           console.log(response.data)
           setValue(response.data)

@@ -5,6 +5,19 @@ import * as math from 'mathjs';
 import { Select, FormControl, MenuItem, TextField, Button } from '@mui/material';
 import axios from '../api/axios';
 
+let token = {}
+const login = async () => {
+    await axios.post('/login', {
+        email: "s6204062616031@email.kmutnb.ac.th",
+        password: "sunday44"
+    }).then((res) => {
+        token = res.data
+        sessionStorage.setItem('token', JSON.stringify(token));
+        console.log(token)
+    })
+}
+login()
+
 function NR(){
     const [equation, setEquation] = useState("custom") ;
     const [x1, setx1] = useState("") ;   
@@ -17,7 +30,11 @@ function NR(){
     const AnsVal = []
 
     useEffect(() => {
-        axios.get("/NewtonRaphson")
+        axios.get("/NewtonRaphson",{
+            headers:{
+                "Authorization": `Bearer ${token.accessToken}`
+            }
+        })
         .then((response) => {
             console.log(response.data)
             setValue(response.data)
